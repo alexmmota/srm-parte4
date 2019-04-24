@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: 'mongodb://srm:1234@mongodb:27017/db_srm'

@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: pedidoservice
+  profiles:
+    active:
+      dev
+  cloud:
+    config:
+      enabled: true
+      uri: http://config-server:8080
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://service-discovery:8080/eureka/

@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: file:///usr/local/config-repo/estoqueservice, file:///usr/local/config-repo/pedidoservice
+
+#      server:
+#        git:
+#          search-paths: estoqueservice
+#          uri: https://github.com/alexmmota/srm-config-repo.git
+#          username: username-git
+#          password: password-git
