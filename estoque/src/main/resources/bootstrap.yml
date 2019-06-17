@@ -9,7 +9,12 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: http://config-server:8080
+      uri: http://srm-config-server:8080
+  rabbitmq:
+    host: rabbitmq-srm
+    port: 5672
+    username: guest
+    password: guest
 
 eureka:
   instance:
@@ -18,4 +23,4 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://service-discovery:8080/eureka/
+      defaultZone: http://172.32.0.105:8080/eureka/

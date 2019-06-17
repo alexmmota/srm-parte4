@@ -13,10 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -44,10 +41,16 @@ public class OrderService {
 
     @HystrixCommand(commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
-                             value = "1000")})
+                             value = "1000")}, fallbackMethod = "fallBackFindByClient")
     public List<Order> findByClient(String cpf) {
+        sleep();
         return orderRepository.findByClient_CpfOrderByCreateDateAsc(cpf);
     }
+
+    public List<Order> fallBackFindByClient(String cpf) {
+        return Collections.EMPTY_LIST;
+    }
+
 
     public Order finish(String id) {
         logger.info("m=finish, id={}", id);
@@ -81,7 +84,7 @@ public class OrderService {
                 @HystrixProperty(name="maxQueueSize", value="10")})
     private Product findProductByBarCode(OrderItem item) {
         sleep();
-        return estoqueClient.findByBarCode(item.getProduct());
+        return estoqueClient.findByIsbn(1l, item.getProduct());
     }
 
     private void sleep() {
@@ -100,7 +103,7 @@ public class OrderService {
 
     @HystrixCommand
     private void subtractProductAmount(OrderItem item) {
-        estoqueClient.subtractAmount(item.getProduct(), item.getAmount());
+        estoqueClient.subtractAmount(1l, item.getProduct(), item.getAmount());
     }
 
     private Order getOrderById(String id) {

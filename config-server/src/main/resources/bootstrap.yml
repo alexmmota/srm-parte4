@@ -2,18 +2,58 @@ server:
   port: 8080
 spring:
   application:
-    name: config-server
-  profiles:
-    active: native
+    name: srm-config-server
+  rabbitmq:
+    host: rabbitmq-srm
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
+      label: parte3
       server:
-        native:
-          searchLocations: file:///usr/local/config-repo/estoqueservice, file:///usr/local/config-repo/pedidoservice
+        git:
+          search-paths: estoqueservice, pedidoservice
+          uri: https://github.com/alexmmota/srm-config-repo.git
+          ignoreLocalSshSettings: true
+          hostKey: someHostKey
+          hostKeyAlgorithm: ssh-rsa
+          privateKey: -----BEGIN RSA PRIVATE KEY-----
+                      MIIEowIBAAKCAQEAtbMs6Mxw/hlQRHjWW6ofwvLXxUixRXyLMiR75UGwtfS2HN7A
+                      AbbHJ5t4hugqOXLucIfWmz/a4sx6hx+WjuUl9LEzjEYZebz5+Pb67ynyLpfg/PpK
+                      qEXNe4FZJlyGpcPImQCVKz6LwkSwW91C/7mF6Y8+mJXyMBgl+o+fOgYrlnSc2Hlw
+                      +6vYhI0zJN1uv9rsajLetT61FnCiIPRRACE/C0YA9PhQn/o3DDGa5YM1OrgWEoYx
+                      KyPpkJSZe0DWRMKuPb6vP0t5fhSk6tcoEqu/8gViuGpJbHV5eM3UYECl6YCg3FXP
+                      a5FfE0Z2Edt/LD3FAxRDCddgFsF42yhA6UDaSwIDAQABAoIBAAnVf7m9zuPBxPlf
+                      vOJLK9rmP81aqNWE7xewp8/5pTHD49NeLvAoz1CSdox+pkJjuQn4ICJY62TZAkyr
+                      5f8n4c0DhjGyXZCcLL9PxrcJAyWIbNHkTgQbewqTLpsH6PWxyfqV8Hzdrry98PmX
+                      2Rd0GA5TBWVGwEvgErYj7c87JELJR378uUSknTeV/5lkDE9xAH5sAJaAkmLHNjVJ
+                      aRzdtfkFznvsPExV9XbpnZ91KBwyDDdzVDFx5hkhDEKudA2Bb9knQhEGO71iwWGX
+                      vzIg7iSHeNEMdaDhNBuze8gfhZGDyvJUUWEA//0Bjnf9ggI8ubR0NhS22d8FnADi
+                      DUX2YnECgYEA7A3p/ZKMDwEXRJ0XNIZtUSf+xI/cjzZK+dhgAaObkPuN4Xuemxzc
+                      9SDlxrPFvw5PFf2L4223y5r0VI2JofkSk/BqQwkVh9oWhct410jf0aEKugX46y+R
+                      6QCvBaWL1osqL7yNg6myC011IK504hPzf7Wh3bhFHjDvu0AwKvjbYhMCgYEAxQ2F
+                      i2sCWbO6syzu4f4mqhiGBL8Hk/zBxR3zxFXAJvi2NbkZmlVo6PAyvvhORe+g57k0
+                      pU2L6AsyCC2Jro+RZ0TOPGmTpHE4BYxE7Psnf+38E9Zdiy10tNoEbeaQ48p/+woJ
+                      /rmLiL9tVrhZ1sew+l+RiUQ5Xo9SEEfkqOIz7ekCgYEAs0keH2ne1saNVZ+6sDop
+                      bSpjZgeeDWe/KmQdByGsVkG5UTkDDeyuJcAGxRRlbOcBSkJ4rRP4NLxMNqwJjOwQ
+                      ICzJiICtybDqylPwRBMla6JU81T16isHN2E9jZxeyWSJdhhPo2CPyeXawCfAvrVI
+                      jAb4Gd6LIJMqgZ4O95Rri+ECgYA6AALgyHyGnqpDduRRTJdg1ZsM5pV6b5kxReGs
+                      Vnkaf3ZSVcs9bApXFew53ahcWW4JBrCCP1MA19rAIXc3FDb+KHhzu7ejXVfZ+jGH
+                      d11nAEuEI0KhZp3FZa6MEqNvCPmmkIvkmASEGaQ7NEPtPhXPfDXAK36fYJwNArxB
+                      IWObkQKBgB4CFtqPTn7BHTTQ3PhYJWNbIyAU078CsRzJ4KrbY3ITaWK5Q/is8P02
+                      kRS7ZNCNJxFMMT4bkXvz66hS2XwEVPLM0FHSxogEIaseupc0xKNM/V3di7/ptGiP
+                      AoHUlykXd4h3Kwz9g6WQxmrHc1giu5WRCR8e1czmjO8tlEMwdbz6
+                      -----END RSA PRIVATE KEY-----
 
-#      server:
-#        git:
-#          search-paths: estoqueservice
-#          uri: https://github.com/alexmmota/srm-config-repo.git
-#          username: username-git
-#          password: password-git
+encrypt:
+  key: '12313213'
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://service-discovery:8080/eureka/
