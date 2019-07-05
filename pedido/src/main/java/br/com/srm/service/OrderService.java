@@ -40,8 +40,11 @@ public class OrderService {
     }
 
     @HystrixCommand(commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
-                             value = "1000")}, fallbackMethod = "fallBackFindByClient")
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")},
+            threadPoolProperties = {
+                    @HystrixProperty(name = "coreSize", value = "3")
+            },
+            fallbackMethod = "fallBackFindByClient")
     public List<Order> findByClient(String cpf) {
         sleep();
         return orderRepository.findByClient_CpfOrderByCreateDateAsc(cpf);
